@@ -79,7 +79,8 @@ func (d *ADS1115) setup() error {
 	mux := uint16(d.ch) & 0x7
 	pga := uint16(d.gain) & 0x7
 	mode := uint16(0) & 0x1 // continuous
-	dr := uint16(4) & 0x7   // 128 SPS - if you change this, must also changing timing
+	dr := uint16(0) & 0x7   // 8 SPS - if you change this, must also changing timing
+	//dr := uint16(4) & 0x7   // 128 SPS - if you change this, must also changing timing
 	compMode := uint16(0) & 0x1
 	compPol := uint16(0) & 0x1
 	compLat := uint16(0) & 0x1
@@ -128,7 +129,7 @@ func (d *ADS1115) Voltage(ch byte) (float64, error) {
 		if err != nil {
 			return math.NaN(), err
 		}
-		time.Sleep(10 * time.Millisecond) // wait for next conversion
+		time.Sleep( 375 * time.Millisecond) // wait for next conversion
 	}
 
 	v, err := d.Bus.ReadWordFromReg(d.address, voltageReg)

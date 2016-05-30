@@ -26,25 +26,28 @@ func main() {
 	ads := ads1115.New(bus, 0x48, ads1115.RangeQuarterV)
 	defer ads.Close()
 
-	for {
+	for n := 0; n < 10; n++ {
+		channels := []byte{
+			ads1115.Diff01,
+			ads1115.Diff23,
+		}
 
-		if false {
-			v, err := ads.Voltage(ads1115.Diff23)
-			if err != nil {
-				panic(err)
+		fmt.Printf("-------------------\n")
+
+		for _, ch := range channels {
+
+			for i := 0; i < 1; i++ {
+
+				v, err := ads.Voltage(ch)
+				if err != nil {
+					panic(err)
+				}
+				fmt.Printf("CH=%v Voltage=%v scale to %5.2f V scale to %5.2f A\n", ch, v, -v*99370.0/331.42, v*1000)
+				//time.Sleep(125 * time.Millisecond)
+
 			}
-			fmt.Printf("CH23 diff Voltage=%v scale to %v V \n", v, -v*100332.0/332.0)
+
 		}
-		
-		if true {
-			v, err := ads.Voltage(ads1115.Single1)
-			if err != nil {
-			panic(err)
-			}
-			fmt.Printf("CH01 diff Voltage=%v scale to %v A \n", v, -v*1000.0)
-			//fmt.Printf("%v A \n", -v*1000.0)
-		}
-		
-		time.Sleep(20 * time.Millisecond)
+		time.Sleep(1000 * time.Millisecond)
 	}
 }
