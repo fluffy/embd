@@ -29,7 +29,9 @@ func main() {
 	for n := 0; n < 10; n++ {
 		channels := []byte{
 			ads1115.Diff01,
+			//ads1115.Single1,
 			ads1115.Diff23,
+			//ads1115.Single3,
 		}
 
 		fmt.Printf("-------------------\n")
